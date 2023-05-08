@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("NEON_URL")
+  shadowDatabaseUrl = env("NEON_URL")
+}
+
+model User {
+  id                String             @id @default(uuid())
+  login             String             @unique
+  email             String             @unique
+  passwordHash      String
+  createdAt         DateTime           @default(now())
+  emailConfirmation EmailConfirmation?
+  passwordRecovery  PasswordRecovery?
+}
+
+model EmailConfirmation {
+  id               String   @id @default(uuid())
+  confirmationCode String   @unique
+  expirationDate   DateTime
+  isConfirmed      Boolean  @default(false)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String   @unique
+}
+
+model PasswordRecovery {
+  id           String @id @default(uuid())
+  email        String @unique
+  recoveryCode String
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String @unique
+}
+
+// npx prisma migrate dev —name init
+// npx prisma studio
