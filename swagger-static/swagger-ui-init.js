@@ -235,6 +235,169 @@ window.onload = function() {
             "Devices"
           ]
         }
+      },
+      "/posts/{postId}": {
+        "get": {
+          "operationId": "PostsController_findPostById",
+          "parameters": [
+            {
+              "name": "postId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Posts"
+          ]
+        },
+        "delete": {
+          "operationId": "PostsController_deletePostById",
+          "parameters": [
+            {
+              "name": "postId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Posts"
+          ]
+        },
+        "put": {
+          "operationId": "PostsController_updatePostById",
+          "parameters": [
+            {
+              "name": "postId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePostDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Posts"
+          ]
+        }
+      },
+      "/posts": {
+        "post": {
+          "operationId": "PostsController_createPost",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePostDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Posts"
+          ]
+        }
+      },
+      "/users/profile": {
+        "put": {
+          "operationId": "UsersController_updateProfile",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Users"
+          ]
+        },
+        "get": {
+          "operationId": "UsersController_findProfileByUserId",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Users"
+          ]
+        }
+      },
+      "/users/avatar": {
+        "post": {
+          "operationId": "UsersController_uploadImageForProfile",
+          "parameters": [],
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Users"
+          ]
+        }
+      },
+      "/testing/all-data": {
+        "delete": {
+          "operationId": "ClearDbController_deleteAllData",
+          "parameters": [],
+          "responses": {
+            "204": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Clear data of DB"
+          ]
+        }
       }
     },
     "info": {
@@ -337,6 +500,74 @@ window.onload = function() {
             "newPassword",
             "recoveryCode"
           ]
+        },
+        "CreatePostDto": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "String",
+              "description": "Description",
+              "example": "Post description",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "postPhoto": {
+              "type": "object",
+              "description": "Photo",
+              "example": "Multipart form data",
+              "format": "Binary"
+            }
+          },
+          "required": [
+            "description",
+            "postPhoto"
+          ]
+        },
+        "UpdatePostDto": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Post description",
+              "example": "Hello world",
+              "format": "String",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "description"
+          ]
+        },
+        "UserProfileDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Users name",
+              "example": "string"
+            },
+            "surname": {
+              "type": "string",
+              "description": "User surname",
+              "example": "string"
+            },
+            "dateOfBirthday": {
+              "type": "string",
+              "description": "User date of birthday",
+              "example": "some date"
+            },
+            "city": {
+              "type": "string",
+              "description": "User city",
+              "example": "string"
+            },
+            "aboutMe": {
+              "type": "string",
+              "description": "Information about user",
+              "example": "string"
+            }
+          }
         }
       }
     }

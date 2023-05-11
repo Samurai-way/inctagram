@@ -35,8 +35,23 @@ import { LocalStrategy } from './modules/auth/strategies/local';
 import { JwtStrategy } from './modules/auth/strategies/jwt';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth';
 import { LocalAuthGuard } from './modules/auth/guards/local-auth';
+import { PostsController } from './modules/posts/posts.controller';
+import { PostsRepository } from './modules/posts/repository/posts';
+import { CreatePostUseCase } from './modules/posts/use-cases/create-post';
+import { DeletePostByIdUseCase } from './modules/posts/use-cases/delete-post';
+import { UpdatePostByIdUseCase } from './modules/posts/use-cases/update-post';
+import { S3FilesRepository } from './S3/files.repository';
+import { UsersController } from './modules/users/users.controller';
+import { ClearDbController } from './modules/clear/crear-db-controller';
 
-const controllers = [AppController, AuthController, DevicesController];
+const controllers = [
+  AppController,
+  AuthController,
+  DevicesController,
+  PostsController,
+  UsersController,
+  ClearDbController,
+];
 const services = [
   AppService,
   PrismaService,
@@ -45,7 +60,13 @@ const services = [
   AuthService,
   UsersService,
 ];
-const repositories = [EmailRepository, DevicesRepository, UsersRepository];
+const repositories = [
+  EmailRepository,
+  DevicesRepository,
+  UsersRepository,
+  PostsRepository,
+  S3FilesRepository,
+];
 const useCases = [
   RegistrationUseCase,
   ConfirmationUseCase,
@@ -61,6 +82,9 @@ const useCases = [
   GetAlldevicesUseCase,
   DeleteAlldevicesUseCase,
   DeleteAllDevicesByDeviceIdUseCase,
+  CreatePostUseCase,
+  DeletePostByIdUseCase,
+  UpdatePostByIdUseCase,
 ];
 
 @Module({
