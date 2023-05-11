@@ -12,7 +12,7 @@ async function bootstrap() {
   const rawApp = await NestFactory.create(AppModule, {
     rawBody: true,
     cors: {
-      origin: ['https://instagram-ui-nine.vercel.app'],
+      origin: ['https://instagram-ui-nine.vercel.app', 'http://localhost:3000'],
       credentials: true,
     },
   });
