@@ -34,6 +34,15 @@ import { LogoutCommand } from './use-cases/logout';
 import { JwtAuthGuard } from './guards/jwt-auth';
 import { UserModel } from '../../../swagger/Users/user.model';
 import { LoginCommand } from './use-cases/login';
+import { ApiRegistrationSwagger } from '../../../swagger/Auth/api-registration';
+import { ApiRegistrationConfirmationSwagger } from '../../../swagger/Auth/api-registration-confirmation';
+import { ApiRegistrationEmailResendingSwagger } from '../../../swagger/Auth/api-registration-email-resending';
+import { ApiLoginSwagger } from '../../../swagger/Auth/api-login';
+import { ApiRefreshTokenSwagger } from '../../../swagger/Auth/api-refresh-token';
+import { ApiPasswordRecoverySwagger } from '../../../swagger/Auth/api-password-recovery';
+import { ApiNewPasswordSwagger } from '../../../swagger/Auth/api-new-password';
+import { ApiLogoutSwagger } from '../../../swagger/Auth/api-logout';
+import { ApiMeSwagger } from '../../../swagger/Auth/api-me';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -41,7 +50,7 @@ export class AuthController {
   constructor(private commandBus: CommandBus) {}
 
   @Post('registration')
-  // @ApiRegistrationSwagger()
+  @ApiRegistrationSwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async registration(
     @Body() dto: AuthDto,
@@ -75,7 +84,7 @@ export class AuthController {
   // }
 
   @Post('registration-confirmation')
-  // @ApiRegistrationConfirmationSwagger()
+  @ApiRegistrationConfirmationSwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async registrationConfirmation(
     @Body() dto: ConfirmationCodeDto,
@@ -84,7 +93,7 @@ export class AuthController {
   }
 
   @Post('registration-email-resending')
-  // @ApiRegistrationEmailResendingSwagger()
+  @ApiRegistrationEmailResendingSwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async registrationEmailResending(@Body() dto: EmailDto): Promise<boolean> {
     return this.commandBus.execute(new EmailResendingCommand(dto));
@@ -93,7 +102,7 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
-  // @ApiLoginSwagger()
+  @ApiLoginSwagger()
   async userLogin(
     @User() user: UserModel,
     @Req() req: Request,
@@ -113,7 +122,7 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  // @ApiRefreshTokenSwagger()
+  @ApiRefreshTokenSwagger()
   @HttpCode(HttpStatus.OK)
   async userRefreshToken(
     @Cookies() cookies,
@@ -133,28 +142,28 @@ export class AuthController {
 
   @Post('password-recovery')
   // @UseGuards(RecaptchaGuard)
-  // @ApiPasswordRecoverySwagger()
+  @ApiPasswordRecoverySwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async userPasswordRecovery(@Body() dto: EmailDto): Promise<boolean> {
     return this.commandBus.execute(new PasswordRecoveryCommand(dto));
   }
 
   @Post('new-password')
-  // @ApiNewPasswordSwagger()
+  @ApiNewPasswordSwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async userNewPassword(@Body() dto: NewPasswordDto) {
     return this.commandBus.execute(new NewPasswordCommand(dto));
   }
 
   @Post('logout')
-  // @ApiLogoutSwagger()
+  @ApiLogoutSwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async userLogout(@Cookies() cookies): Promise<boolean> {
     return this.commandBus.execute(new LogoutCommand(cookies.refreshToken));
   }
 
   @Get('me')
-  // @ApiMeSwagger()
+  @ApiMeSwagger()
   @UseGuards(JwtAuthGuard)
   async getUser(
     @User() user: UserModel,

@@ -24,6 +24,10 @@ import { PostsRepository } from './repository/posts';
 import { CreatePostCommand } from './use-cases/create-post';
 import { DeletePostByIdCommand } from './use-cases/delete-post';
 import { UpdatePostByIdCommand } from './use-cases/update-post';
+import { ApiFindPostByIdSwagger } from '../../../swagger/Posts/api-find-post-by-id';
+import { ApiCreatePostSwagger } from '../../../swagger/Posts/api-create-post';
+import { ApiDeletePostByIdSwagger } from '../../../swagger/Posts/api-delete-post-by-id';
+import { ApiUpdatePostSwagger } from '../../../swagger/Posts/api-update-post';
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -31,13 +35,13 @@ export class PostsController {
   constructor(public command: CommandBus, public postsRepo: PostsRepository) {}
 
   @Get(':postId')
-  // @ApiFindPostByIdSwagger()
+  @ApiFindPostByIdSwagger()
   async findPostById(@Param('postId') postId: string): Promise<Posts> {
     return this.postsRepo.findPostById(postId);
   }
 
   @Post('')
-  // @ApiCreatePostSwagger()
+  @ApiCreatePostSwagger()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('file'))
@@ -52,7 +56,7 @@ export class PostsController {
   }
 
   @Delete(':postId')
-  // @ApiDeletePostByIdSwagger()
+  @ApiDeletePostByIdSwagger()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async deletePostById(
@@ -63,7 +67,7 @@ export class PostsController {
   }
 
   @Put(':postId')
-  // @ApiUpdatePostSwagger()
+  @ApiUpdatePostSwagger()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   async updatePostById(

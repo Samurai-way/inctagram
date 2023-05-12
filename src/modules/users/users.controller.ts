@@ -19,6 +19,9 @@ import { UpdateProfileCommand } from './use-cases/updateProfile';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadFileCommand } from './use-cases/uploadFile';
 import { FindProfileCommand } from './use-cases/findProfile';
+import { ApiUpdateProfileSwagger } from '../../../swagger/Users/api-update-profile';
+import { ApiCreateAvatarSwagger } from '../../../swagger/Users/api-create-avatar';
+import { ApiFindProfileSwagger } from '../../../swagger/Users/api-find-profile';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,7 +29,7 @@ export class UsersController {
   constructor(public readonly commandBus: CommandBus) {}
 
   @Put('profile')
-  // @ApiUpdateProfileSwagger()
+  @ApiUpdateProfileSwagger()
   @UseGuards(JwtAuthGuard)
   async updateProfile(
     @User() user: UserModel,
@@ -36,19 +39,18 @@ export class UsersController {
   }
 
   @Post('avatar')
-  // @ApiCreateAvatarSwagger()
+  @ApiCreateAvatarSwagger()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   async uploadImageForProfile(
     @UploadedFile() photo: Express.Multer.File,
     @User() user: UserModel,
   ): Promise<{ photo: string }> {
-    console.log('photo', photo);
     return this.commandBus.execute(new UploadFileCommand(user.id, photo));
   }
 
   @Get('profile')
-  // @ApiFindProfileSwagger()
+  @ApiFindProfileSwagger()
   @UseGuards(JwtAuthGuard)
   async findProfileByUserId(
     @User() user: UserModel,
