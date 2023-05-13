@@ -43,6 +43,7 @@ import { ApiPasswordRecoverySwagger } from '../../../swagger/Auth/api-password-r
 import { ApiNewPasswordSwagger } from '../../../swagger/Auth/api-new-password';
 import { ApiLogoutSwagger } from '../../../swagger/Auth/api-logout';
 import { ApiMeSwagger } from '../../../swagger/Auth/api-me';
+import { RecaptchaGuard } from './guards/recaptcha.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -141,7 +142,7 @@ export class AuthController {
   }
 
   @Post('password-recovery')
-  // @UseGuards(RecaptchaGuard)
+  @UseGuards(RecaptchaGuard)
   @ApiPasswordRecoverySwagger()
   @HttpCode(HttpStatus.NO_CONTENT)
   async userPasswordRecovery(@Body() dto: EmailDto): Promise<boolean> {

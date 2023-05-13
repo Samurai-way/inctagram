@@ -43,6 +43,7 @@ import { UpdatePostByIdUseCase } from './modules/posts/use-cases/update-post';
 import { S3FilesRepository } from './S3/files.repository';
 import { UsersController } from './modules/users/users.controller';
 import { ClearDbController } from './modules/clear/crear-db-controller';
+import { RecaptchaGuard } from './modules/auth/guards/recaptcha.guard';
 
 const controllers = [
   AppController,
@@ -120,6 +121,7 @@ const useCases = [
     JwtStrategy,
     JwtAuthGuard,
     LocalAuthGuard,
+    RecaptchaGuard,
   ],
 })
 export class AppModule {}
