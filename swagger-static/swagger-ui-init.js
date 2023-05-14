@@ -56,6 +56,53 @@ window.onload = function() {
           ]
         }
       },
+      "/auth/google": {
+        "get": {
+          "operationId": "AuthController_googleAuth",
+          "summary": "Try login user to the system with google account",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Returns JWT accessToken (expired after 8 hours) in body and JWT refreshToken in cookie (http-only, secure) (expired after 30d ays).",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "example": {
+                      "accessToken": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "If the inputModel has incorrect values",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "example": {
+                      "errorsMessages": [
+                        {
+                          "message": "string",
+                          "field": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "If the password or login is wrong"
+            },
+            "429": {
+              "description": "More than 5 attempts from one IP-address during 10 seconds or recaptcha failed"
+            }
+          },
+          "tags": [
+            "Auth"
+          ]
+        }
+      },
       "/auth/registration-confirmation": {
         "post": {
           "operationId": "AuthController_registrationConfirmation",

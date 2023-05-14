@@ -2,6 +2,17 @@ import { IsDate, IsOptional, IsString, Length, MaxDate } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
+const lengthConstants = {
+  name: {
+    minLength: 1,
+    maxLength: 30,
+  },
+  aboutMe: {
+    minLength: 1,
+    maxLength: 200,
+  },
+};
+
 export class UserProfileDto {
   @ApiProperty({
     description: 'Users name',
@@ -9,7 +20,7 @@ export class UserProfileDto {
     type: 'string',
     required: false,
   })
-  @Length(1, 30)
+  @Length(lengthConstants.name.minLength, lengthConstants.name.maxLength)
   @IsString()
   @IsOptional()
   name: string;
@@ -19,7 +30,7 @@ export class UserProfileDto {
     type: 'string',
     required: false,
   })
-  @Length(1, 30)
+  @Length(lengthConstants.name.minLength, lengthConstants.name.maxLength)
   @IsString()
   @IsOptional()
   surname: string;
@@ -40,7 +51,7 @@ export class UserProfileDto {
     type: 'string',
     required: false,
   })
-  @Length(1, 30)
+  @Length(lengthConstants.name.minLength, lengthConstants.name.maxLength)
   @IsString()
   @IsOptional()
   city: string;
@@ -50,7 +61,7 @@ export class UserProfileDto {
     type: 'string',
     required: false,
   })
-  @Length(1, 200)
+  @Length(lengthConstants.aboutMe.minLength, lengthConstants.aboutMe.maxLength)
   @IsString()
   @IsOptional()
   aboutMe: string;

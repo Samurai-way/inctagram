@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -44,6 +44,11 @@ import { ApiNewPasswordSwagger } from '../../../swagger/Auth/api-new-password';
 import { ApiLogoutSwagger } from '../../../swagger/Auth/api-logout';
 import { ApiMeSwagger } from '../../../swagger/Auth/api-me';
 import { RecaptchaGuard } from './guards/recaptcha.guard';
+import { GoogleOAuthGuard } from './guards/google-oauth';
+import { GoogleAuthDecorator } from './decorators/google';
+import { DeviceInfoDecorator } from './decorators/device-info';
+import { GoogleAuthCommand } from './use-cases/google-auth';
+import { ApiGoogleSwagger } from 'swagger/Auth/api-google';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -59,30 +64,29 @@ export class AuthController {
     return this.commandBus.execute(new RegistrationCommand(dto));
   }
 
-  // @Get('/google')
-  // @Throttle(5, 10)
-  // @ApiGoogleSwagger()
-  // @UseGuards(GoogleOAuthGuard)
-  // async googleAuth() {}
-  //
-  // @Get('google-redirect')
-  // @ApiExcludeEndpoint()
-  // @UseGuards(GoogleOAuthGuard)
-  // async googleAuthRedirect(
-  //   @GoogleAuthDecorator() dto: AuthDto,
-  //   @DeviceInfoDecorator() info,
-  //   @Res({ passthrough: true }) res: Response,
-  // ) {
-  //   const { accessToken, refreshToken } = await this.commandBus.execute(
-  //     new GoogleAuthCommand(dto, info),
-  //   );
-  //   res.cookie('refreshToken', refreshToken, {
-  //     httpOnly: false,
-  //     secure: false,
-  //     sameSite: 'none',
-  //   });
-  //   return { accessToken: accessToken };
-  // }
+  @Get('/google')
+  @ApiGoogleSwagger()
+  @UseGuards(GoogleOAuthGuard)
+  async googleAuth() {}
+
+  @Get('google-redirect')
+  @ApiExcludeEndpoint()
+  @UseGuards(GoogleOAuthGuard)
+  async googleAuthRedirect(
+    @GoogleAuthDecorator() dto: AuthDto,
+    @DeviceInfoDecorator() info,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { accessToken, refreshToken } = await this.commandBus.execute(
+      new GoogleAuthCommand(dto, info),
+    );
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: false,
+      secure: false,
+      sameSite: 'none',
+    });
+    return { accessToken: accessToken };
+  }
 
   @Post('registration-confirmation')
   @ApiRegistrationConfirmationSwagger()

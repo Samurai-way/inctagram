@@ -1,15 +1,25 @@
 import { IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+const lengthConstants = {
+  description: {
+    minLength: 1,
+    maxLength: 500,
+  },
+};
+
 export class CreatePostDto {
   @ApiProperty({
     description: 'Description',
     example: 'Post description',
     type: 'String',
-    minLength: 1,
-    maxLength: 500,
+    minLength: lengthConstants.description.minLength,
+    maxLength: lengthConstants.description.maxLength,
   })
-  @Length(1, 500)
+  @Length(
+    lengthConstants.description.minLength,
+    lengthConstants.description.maxLength,
+  )
   @IsString()
   description: string;
   @ApiProperty({
@@ -25,10 +35,13 @@ export class UpdatePostDto {
     description: 'Post description',
     example: 'Hello world',
     format: 'String',
-    minLength: 1,
-    maxLength: 500,
+    minLength: lengthConstants.description.minLength,
+    maxLength: lengthConstants.description.maxLength,
   })
-  @Length(1, 500)
+  @Length(
+    lengthConstants.description.minLength,
+    lengthConstants.description.maxLength,
+  )
   @IsString()
   description: string;
 }

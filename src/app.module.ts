@@ -44,6 +44,9 @@ import { S3FilesRepository } from './S3/files.repository';
 import { UsersController } from './modules/users/users.controller';
 import { ClearDbController } from './modules/clear/crear-db-controller';
 import { RecaptchaGuard } from './modules/auth/guards/recaptcha.guard';
+import { GoogleOAuthGuard } from './modules/auth/guards/google-oauth';
+import { GoogleStrategy } from './modules/auth/strategies/google';
+import { GoogleAuthUseCase } from './modules/auth/use-cases/google-auth';
 
 const controllers = [
   AppController,
@@ -86,6 +89,7 @@ const useCases = [
   CreatePostUseCase,
   DeletePostByIdUseCase,
   UpdatePostByIdUseCase,
+  GoogleAuthUseCase,
 ];
 
 @Module({
@@ -118,10 +122,12 @@ const useCases = [
     ...services,
     ...repositories,
     LocalStrategy,
+    GoogleStrategy,
     JwtStrategy,
     JwtAuthGuard,
     LocalAuthGuard,
     RecaptchaGuard,
+    GoogleOAuthGuard,
   ],
 })
 export class AppModule {}
