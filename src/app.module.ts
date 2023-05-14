@@ -47,6 +47,9 @@ import { RecaptchaGuard } from './modules/auth/guards/recaptcha.guard';
 import { GoogleOAuthGuard } from './modules/auth/guards/google-oauth';
 import { GoogleStrategy } from './modules/auth/strategies/google';
 import { GoogleAuthUseCase } from './modules/auth/use-cases/google-auth';
+import { GithubOauthGuard } from './modules/auth/guards/github-oauth';
+import { GithubStrategy } from './modules/auth/strategies/github';
+import { GithubAuthUseCase } from './modules/auth/use-cases/github-auth';
 
 const controllers = [
   AppController,
@@ -90,6 +93,7 @@ const useCases = [
   DeletePostByIdUseCase,
   UpdatePostByIdUseCase,
   GoogleAuthUseCase,
+  GithubAuthUseCase,
 ];
 
 @Module({
@@ -123,11 +127,13 @@ const useCases = [
     ...repositories,
     LocalStrategy,
     GoogleStrategy,
+    GithubStrategy,
     JwtStrategy,
     JwtAuthGuard,
     LocalAuthGuard,
     RecaptchaGuard,
     GoogleOAuthGuard,
+    GithubOauthGuard,
   ],
 })
 export class AppModule {}

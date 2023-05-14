@@ -21,3 +21,8 @@ export class UserProfileModel {
   aboutMe: string;
   photo: string;
 }
+
+export interface ISocialUser {
+  email: string;
+  login: string;
+}
