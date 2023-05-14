@@ -64,7 +64,7 @@ export class AuthController {
     return this.commandBus.execute(new RegistrationCommand(dto));
   }
 
-  @Get('/google')
+  @Get('google')
   @ApiGoogleSwagger()
   @UseGuards(GoogleOAuthGuard)
   async googleAuth() {}
